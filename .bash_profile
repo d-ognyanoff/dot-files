@@ -1,7 +1,22 @@
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-export PATH="/usr/local/bin:$PATH"
-export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 # sudo commands
 alias systemctl='sudo systemctl'
 alias journalctl='sudo journalctl'
@@ -37,4 +52,4 @@ alias mkdir='mkdir -p'
 alias psa="ps aux"
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias psmem='ps auxf | sort -nr -k 4'
-alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu='ps auxf | sort -nr -k 3'   
